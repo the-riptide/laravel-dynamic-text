@@ -66,7 +66,7 @@
                         <td
                             x-show="show === identifier"
                         >
-                            <div {{$attributes->merge(['class' => ''])}}>
+                            <div class = ''>
                                 <textarea
                                     class="mt-1 focus:ring-indigo-400 focus:border-indigo-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded"
                                     wire:model.defer="texts.{{$index}}.de"
@@ -91,8 +91,8 @@
                             class="text-gray-900 px-6 py-4 whitespace-nowrap"
                             x-show="show !== identifier"
                         >
-                            <<dyntext::btn.slot 
-                                class="btn-info btn-small btn-small" 
+                            <dyntext::btn.slot 
+                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-indigo-500" 
                                 @click="show = identifier"
                             >
                                 Edit
@@ -100,7 +100,7 @@
  
                         <td x-show="show === identifier">
                             <dyntext::btn.slot 
-                                class="btn-danger btn-small btn-small" 
+                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500" 
                                 @click="
                                     $wire.save(identifier);
                                     show = false;
