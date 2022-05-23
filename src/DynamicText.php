@@ -2,12 +2,11 @@
 
 namespace TheRiptide\LaravelDynamicText;
 
-use App\Models\Text;
+use TheRiptide\LaravelDynamicText\Models\Text;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 
 class DynamicText {
-
 
     public function firstOrCreate(string $key, string|array|null $value) : string
     {
@@ -28,28 +27,43 @@ class DynamicText {
     {
         [$catAndKey['category'], $catAndKey['key']] = Str::of($key)->explode('.');
 
-    
         if (is_array($value)) {
-
+            
             foreach ($value as $key => $item) {
 
                 $data[$key] = $item;
             }
         }
         else {
+            
+            if (config('app.locales')) 
+            {
+                foreach (config('app.locales') as $locale) {
+    
+                    $data[$locale] = $value;
+                }
+            }
+            else {
 
-            foreach (config('app.locales') as $locale) {
-
-                $data[$locale] = $value;
+                $data[config('app.locale')] = $value;
+                
             }
         }
         
         $text = Text::firstorcreate($catAndKey, $data);
 
-        foreach (config('app.locales') as $locale) {
+        if (config('app.locales')) {
 
-            (New PrepText($locale))->updateCache();
-        }        
+            foreach (config('app.locales') as $locale) {
+    
+                (New PrepText($locale))->updateCache();
+            }        
+        }
+        else {
+
+            (New PrepText(config('app.locale')))->updateCache();
+
+        }
 
         return $text->{App::getLocale()};
     }

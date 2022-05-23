@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('texts', function (Blueprint $table) {
+
+        $locale = config('app.locales') 
+            ? collect(config('app.locales')) 
+            : collect(config('app.locale'));
+
+        Schema::create('texts', function (Blueprint $table) use ($locale) {
             $table->id();
             $table->string('category');
-            $table->string('key');
-            $table->mediumtext('de');
+            $table->string('key');        
+            $locale->map(fn ($item) => $table->mediumtext($item));
             $table->timestamps();
         });
     }

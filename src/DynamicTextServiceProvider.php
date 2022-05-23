@@ -4,6 +4,7 @@ namespace TheRiptide\LaravelDynamicText;
 
 use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
+use TheRiptide\LaravelDynamicText\Commands\SetupLanguage;
 use TheRiptide\LaravelDynamicText\Http\Livewire\TextIndex;
 
 class DynamicTextServiceProvider extends ServiceProvider
@@ -25,10 +26,17 @@ class DynamicTextServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/dynamictext.php', 'dynamictext'
         );
-
+        
         Livewire::component('laravel-dynamic-text', TextIndex::class);
 
-        
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                SetupLanguage::class,
+            ]);
+        }
+
+
     }
 
     public function register() {
