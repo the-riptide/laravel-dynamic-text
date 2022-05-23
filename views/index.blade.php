@@ -43,9 +43,6 @@
 
     </div>
 
-
-
-
     <div 
         class="text-sm shadow border border-gray-200 sm:rounded-lg overflow-hidden"
         @click.away="show = false"

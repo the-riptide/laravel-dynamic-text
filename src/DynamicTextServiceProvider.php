@@ -28,6 +28,7 @@ class DynamicTextServiceProvider extends ServiceProvider
 
         Livewire::component('laravel-dynamic-text', TextIndex::class);
 
+        
     }
 
     public function register() {
