@@ -4,7 +4,7 @@ namespace TheRiptide\LaravelDynamicText\Http\Livewire;
 
 use Livewire\Component;
 use TheRiptide\LaravelDynamicText\Models\Text;
-use TheRiptide\LaravelDynamicDashboard\Objects\Menu;
+use TheRiptide\LaravelDynamicDashboard\Objects\Menu as DashMenu;
 
 class TextIndex extends Component
 {
@@ -14,11 +14,18 @@ class TextIndex extends Component
     public $categories;
     public $category;
     public $search;
-
+    public $exists;
     
     protected $rules = [
         'texts.*.de' => 'required|string',
     ];
+    public function boot()
+    {
+        $this->exists = class_exists(TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider::class);
+
+
+    }
+
     public function render()
     {
 
@@ -32,12 +39,15 @@ class TextIndex extends Component
         return view('dyntext::index', [
             'texts' => $this->texts,
 
-        ])->extends('dyntext::layout', [
-            // 'menuItems' => (new Menu)->items
-            'menuItems' => [],
-        ])
+        ])->extends($this->exists 
+            ? 'dyndash::layout' 
+            : 'dyntext::layout', 
+            [
+                'menuItems' => $this->exists ? 
+                    (new DashMenu)->items 
+                    : config('dynamictext.menu'),
+            ])
             ->section('body');
-
     }
 
     public function searchAction($id) {
