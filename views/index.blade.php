@@ -11,14 +11,31 @@
         class="text-gray-900 col-span-2 relative mb-4"
     >
 
-        <div>
-            <label class="block text-sm font-medium text-gray-700"> Search </label>
-            <input
-                class="border border-gray-300 bg-white h-10 w-full px-5 pr-16 rounded-lg text-sm focus:outline-none focus:ring-indigo-900"
-                wire:model="search"
-                type="text"
-                placeholder="search"
-            >
+        <div class="flex">
+            <div class="py-2 px-2">
+                <label class="block text-sm font-medium text-gray-700"> Category </label>
+                <select wire:model="category" 
+                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option> Please Choose... </option>
+
+                        <template x-for="(item, index) in {{json_encode($categories)}}" :key="index">
+                            <option 
+                                x-text="item"
+                                :value="index"
+                            ></option>
+                        </template>
+
+                </select>
+            </div>
+            <div class="grow py-2 px-2">
+                <label class="block text-sm font-medium text-gray-700"> Search </label>
+                <input
+                    class="border border-gray-300 bg-white h-10 w-full px-5 pr-16 rounded-lg text-sm focus:outline-none focus:ring-indigo-900"
+                    wire:model="search"
+                    type="text"
+                    placeholder="search"
+                >
+            </div>
             @error($search) 
                 <span>{{ $message }}</span> 
             @enderror

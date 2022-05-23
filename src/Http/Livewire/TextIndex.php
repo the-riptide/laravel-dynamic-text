@@ -3,6 +3,7 @@
 namespace TheRiptide\LaravelDynamicText\Http\Livewire;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use TheRiptide\LaravelDynamicText\Models\Text;
 use TheRiptide\LaravelDynamicDashboard\Objects\Menu as DashMenu;
 
@@ -23,21 +24,22 @@ class TextIndex extends Component
     {
         $this->exists = class_exists(TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider::class);
 
-
+        $this->categories = Text::pluck('category')->unique()->mapWithKeys(fn ($item) => [$item => Str::ucfirst($item)]);
+        
     }
 
     public function render()
     {
 
         $this->texts = Text::query()
-            // ->searchFilter($this->search)
-            // ->categoryFilter($this->category)
+            ->searchFilter($this->search)
+            ->categoryFilter($this->category)
             ->get();
 
-        $this->categories = Text::pluck('category')->unique()->sortby('category');
 
         return view('dyntext::index', [
             'texts' => $this->texts,
+            'categories' => $this->categories,
 
         ])->extends($this->exists 
             ? 'dyndash::layout' 

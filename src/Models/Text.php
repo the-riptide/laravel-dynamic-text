@@ -15,7 +15,7 @@ class Text extends Model
     public function scopeCategoryFilter($query, $category){
 
         $query->when(
-            $category, fn ($query) => $query->where($this->category, $category)
+            $category, fn ($query) => $query->where('category', $category)
         );
     }
 
