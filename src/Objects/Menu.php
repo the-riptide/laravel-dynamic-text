@@ -10,6 +10,6 @@ class Menu
 
     public function __construct() {
 
-        $this->items = config('dyntext.menu');
+        $this->items = config('dynamictext.menu');
     }
 }

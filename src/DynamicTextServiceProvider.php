@@ -27,6 +27,12 @@ class DynamicTextServiceProvider extends ServiceProvider
             __DIR__.'/../config/dynamictext.php', 'dynamictext'
         );
         
+        $this->publishes([
+            __DIR__.'/../config/dynamictext.php' => config_path('dynamictext.php'),
+        ]);
+
+
+
         Livewire::component('laravel-dynamic-text', TextIndex::class);
 
 
