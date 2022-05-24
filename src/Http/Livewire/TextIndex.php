@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use TheRiptide\LaravelDynamicText\Models\Text;
 use TheRiptide\LaravelDynamicDashboard\Objects\Menu as DashMenu;
+use TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider;
 
 class TextIndex extends Component
 {
@@ -22,7 +23,7 @@ class TextIndex extends Component
     ];
     public function boot()
     {
-        $this->exists = class_exists(TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider::class);
+        $this->exists = class_exists(DynamicDashboardServiceProvider::class);
 
         $this->categories = Text::pluck('category')->unique()->mapWithKeys(fn ($item) => [$item => Str::ucfirst($item)]);
         

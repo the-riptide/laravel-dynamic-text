@@ -3,13 +3,13 @@
 namespace TheRiptide\LaravelDynamicText\Security;
 
 use Illuminate\Support\Facades\App;
-
+use TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider;
 
 class Authorize {
 
     public function canTakeAction() {
 
-    $config = class_exists(TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider::class) 
+    $config = class_exists(DynamicDashboardServiceProvider::class) 
         ? 'dyndash.emails' 
         : 'dynamictext.emails';
 
