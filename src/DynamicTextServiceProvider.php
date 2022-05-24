@@ -29,6 +29,8 @@ class DynamicTextServiceProvider extends ServiceProvider
         
         $this->publishes([
             __DIR__.'/../config/dynamictext.php' => config_path('dynamictext.php'),
+            __DIR__.'/../views' => resource_path('views/vendor/dyntext'),
+
         ]);
 
 
