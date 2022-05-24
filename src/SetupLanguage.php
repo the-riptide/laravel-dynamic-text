@@ -3,7 +3,6 @@
 namespace TheRiptide\LaravelDynamicText;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 
 class SetupLanguage 
@@ -19,6 +18,8 @@ class SetupLanguage
 
     public function generateLanguage($locale)
     {
+        if (! File::exists(resource_path('lang/'))) File::makeDirectory(resource_path('lang/'));
+
         $path = resource_path('lang/' . $locale);
      
         if (! File::exists($path . '/lang.php')) 
