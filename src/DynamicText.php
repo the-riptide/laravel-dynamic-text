@@ -11,7 +11,7 @@ class DynamicText {
     public function firstOrCreate(string $key, string|array|null $value) : string
     {
         $response = trans('lang.' . $key);
-        
+
         if ($value) {
        
             if ($response === 'lang.' . $key && $value) {
@@ -45,8 +45,7 @@ class DynamicText {
             }
             else {
 
-                $data[config('app.locale')] = $value;
-                
+                $data[config('app.locale')] = $value;  
             }
         }
         
@@ -62,7 +61,6 @@ class DynamicText {
         else {
 
             (New PrepText(config('app.locale')))->updateCache();
-
         }
 
         return $text->{App::getLocale()};
