@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use TheRiptide\LaravelDynamicText\Models\Text;
 use TheRiptide\LaravelDynamicDashboard\Objects\Menu as DashMenu;
+use TheRiptide\LaravelDynamicText\Objects\Menu as TextMenu;
+
 use TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider;
 
 class TextIndex extends Component
@@ -17,6 +19,7 @@ class TextIndex extends Component
     public $category;
     public $search;
     public $exists;
+    public $type = 'Texts';
     
     protected $rules = [
         'texts.*.de' => 'required|string',
@@ -46,9 +49,9 @@ class TextIndex extends Component
             ? 'dyndash::layout' 
             : 'dyntext::layout', 
             [
-                'menuItems' => $this->exists ? 
-                    (new DashMenu)->items 
-                    : config('dynamictext.menu'),
+                'menuItems' => $this->exists  
+                    ? (new DashMenu)->items 
+                    : (new TextMenu)->items,
             ])
             ->section('body');
     }

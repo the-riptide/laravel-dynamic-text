@@ -1,131 +1,130 @@
 {{-- this is a livewire view. For the livewire to work, the whole view must have a wrapping div. --}}
-<div
-    x-data="{show : false}"
->
-    <div
-        x-data="{
-            isOpen : false,
-        }"
-        @click.away ="isOpen = false"
-        @keyup.enter =" if ({{$texts->count()}} == 1) $wire.searchAction({{$texts->first()->id ?? null}})"
-        class="text-gray-900 col-span-2 relative mb-4"
-    >
+<div x-data="{ show: false }"
+    @keyup.enter=" if ({{ $texts->count() }} == 1) $wire.searchAction({{ $texts->first()->id ?? null }})"
+    class="relative col-span-2 mb-4 space-y-6 text-gray-900">
 
-        <div class="flex">
-            <div class="py-2 px-2">
-                <label class="block text-sm font-medium text-gray-700"> Category </label>
-                <select wire:model="category" 
-                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option> Please Choose... </option>
+    @section('title')
+        {{ Str::ucfirst('Texts') }}
+    @endsection
 
-                        <template x-for="(item, index) in {{json_encode($categories)}}" :key="index">
-                            <option 
-                                x-text="item"
-                                :value="index"
-                            ></option>
-                        </template>
+    <div class="max-w-lg">
+        {{-- Category Select --}}
+        <div>
+            <label class="mb-2 block text-sm font-medium text-gray-700"> Category </label>
+            <select wire:model="category"
+                class="mt-1 block w-full rounded border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                <option value=""> Please Choose... </option>
 
-                </select>
-            </div>
-            <div class="grow py-2 px-2">
-                <label class="block text-sm font-medium text-gray-700"> Search </label>
-                <input
-                    class="border border-gray-300 bg-white h-10 w-full px-5 pr-16 rounded-lg text-sm focus:outline-none focus:ring-indigo-900"
-                    wire:model="search"
-                    type="text"
-                    placeholder="search"
-                >
-            </div>
-            @error($search) 
-                <span>{{ $message }}</span> 
-            @enderror
+                <template x-for="(item, index) in {{ json_encode($categories) }}"
+                    :key="index">
+                    <option x-text="item"
+                        :value="index"></option>
+                </template>
+
+            </select>
         </div>
-
     </div>
 
-    <div 
-        class="text-sm shadow border border-gray-200 sm:rounded-lg overflow-hidden"
-        @click.away="show = false"
-    >
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
+    {{-- Search --}}
+    <div class="max-w-lg">
+        <label class="mb-2 block text-sm font-medium text-gray-700"> Search </label>
+        <input
+            class="h-10 w-full rounded-md border border-gray-300 bg-white px-5 pr-16 text-sm focus:outline-none focus:ring-indigo-600"
+            wire:model="search"
+            type="text"
+            placeholder="search">
 
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Category
-                    </th>
-                    
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Text
-                    </th>
-                                            
-                    <th scope="col" class="relative px-6 py-3">
-                        <span class="sr-only">Edit</span>
-                    </th>
-                </tr>
-            </thead>
+        {{-- Search errors --}}
+        @error($search)
+            <span>{{ $message }}</span>
+        @enderror
+    </div>
 
-            <tbody class="bg-white divide-y divide-gray-100">
-                @foreach($texts as $index => $text)
-                    <tr
-                        x-data="{identifier : {{json_encode($index)}} }"
-                    >
+    <div>
+        <label class="mb-2 block text-sm font-medium text-gray-700">Texts</label>
 
-                        <td class="text-gray-900 px-6 py-4 whitespace-nowrap">
-                            {{$text->category}}                                        
-                        </td>
+        {{-- Text Table Wrap --}}
+        <div class="overflow-auto rounded-md border border-gray-300 text-sm shadow-sm"
+            @click.away="show = false">
+            {{-- Table --}}
+            <table class="min-w-full divide-y divide-gray-300">
+                {{-- Table header --}}
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                            Category
+                        </th>
 
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                            Text
+                        </th>
 
-                        
-                        <td
-                            x-show="show === identifier"
-                        >
-                            <div class = ''>
-                                <textarea
-                                    class="mt-1 focus:ring-indigo-400 focus:border-indigo-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded"
-                                    wire:model.defer="texts.{{$index}}.de"
-                                ></textarea>
-                                @error($texts[$index]['de']) 
-                                    <span>{{ $message }}</span> 
-                                @enderror
-                            
-                            </div>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
 
-                        </td>
-        
-                        <td 
-                            class="text-gray-900 px-6 py-4 whitespace-nowrap"
-                            x-show="show !== identifier"
-                        >
-                            {{Str::words($text->de, 15, '...')}}
+                {{-- Table Body --}}
+                <tbody class="divide-y divide-gray-100 bg-white">
+                    @foreach ($texts as $index => $text)
+                        <tr x-data="{ identifier: {{ json_encode($index) }} }">
 
-                        </td>
+                            {{-- Category --}}
+                            <td class="px-6 py-4">
+                                {{ $text->category }}
+                            </td>
 
-                        <td 
-                            class="text-gray-900 px-6 py-4 whitespace-nowrap"
-                            x-show="show !== identifier"
-                        >
-                            <dyntext::btn.slot 
-                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-indigo-500" 
-                                @click="show = identifier"
-                            >
-                                Edit
-                            </dyntext::btn.slot>
- 
-                        <td x-show="show === identifier">
-                            <dyntext::btn.slot 
-                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500" 
-                                @click="
-                                    $wire.save(identifier);
-                                    show = false;
-                                " 
-                            >
-                                Save
-                            </dyntext::btn.slot>
-                        </td>
-                    </tr>       
-                @endforeach
-            </tbody>
-        </table>
+                            <td class="px-6 py-4">
+                                {{-- Textarea --}}
+                                <div x-show="show === identifier">
+                                    <textarea class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-400 focus:ring-indigo-400 sm:text-sm"
+                                        wire:model.defer="texts.{{ $index }}.de"></textarea>
+                                    @error($texts[$index]['de'])
+                                        <span>{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                {{-- Text preview --}}
+                                <div x-show="show !== identifier">
+                                    {{ Str::words($text->de, 15, '...') }}
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4">
+                                {{-- Edit button --}}
+                                <div
+                                    x-show="show !== identifier">
+                                    {{-- Edit --}}
+                                    <button @click="show = identifier"
+                                        class="rounded bg-indigo-500 px-4 py-1 font-medium text-white">
+                                        Edit
+                                    </button>
+                                </div>
+
+                                {{-- Save or cancel --}}
+                                <div x-show="show === identifier" class="space-x-3">
+                                    {{-- Save --}}
+                                    <button
+                                        class="inline-block rounded bg-green-500 px-4 py-1 font-medium text-white"
+                                        @click="
+                                            $wire.save(identifier);
+                                            show = false;
+                                        ">
+                                        Save
+                                    </button>
+                                    {{-- Cancel --}}
+                                    <button @click="show = false">Cancel</button>
+                                </div>
+                            </td>
+
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

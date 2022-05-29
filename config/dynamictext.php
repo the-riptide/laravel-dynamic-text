@@ -9,8 +9,10 @@ return [
 
     /** if you're not using the dyndash menu, put any menu entries in the following array */
 
-    'menu' => [
-        'dynamic texts' => 'dashboard_texts',
+    'menu_items' => [
+        'texts' => [
+            'route' => 'dashboard_texts'
+        ],
     ],
 
 ];
