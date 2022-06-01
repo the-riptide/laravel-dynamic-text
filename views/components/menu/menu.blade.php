@@ -2,12 +2,12 @@
 
 <nav x-data="{ open: false }">
     <!-- Primary Navigation Menu -->
-    <div class="container">
+    <div class="max-w-6xl mx-auto px-4 lg:px-8">
         <div class="flex h-16 justify-between">
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
-                    <a href="{{ route('dyndash.home') }}">
+                    <a href="/">
 
                         @if (Config('dyndash.application-mark'))
                             <img src="{{ asset(Config('dyndash.application-mark')) }}" class="block h-10 w-auto"
