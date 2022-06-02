@@ -1,7 +1,7 @@
 {
     "name": "the-riptide/laravel-dynamic-text",
     "description": "A setup and dashboard to make text and translations easy to edit",
-    "type": "library",
+    "type": "project",
     "license": "MIT",
     "keywords": [
         "laravel",
