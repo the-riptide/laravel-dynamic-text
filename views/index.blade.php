@@ -58,10 +58,11 @@
                                 Category
                             </th>
 
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Text
-                            </th>
+                            @foreach($locales as $locale)
+                                <th scope="col"
+                                    class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                </th>
+                            @endforeach
 
                             <th scope="col"
                                 class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -80,21 +81,23 @@
                                     {{ $text->category }}
                                 </td>
 
-                                <td class="px-6 py-4">
-                                    {{-- Textarea --}}
-                                    <div x-show="show === identifier">
-                                        <textarea class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-400 focus:ring-indigo-400 sm:text-sm"
-                                            wire:model.defer="texts.{{ $index }}.de"></textarea>
-                                        @error($texts[$index]['de'])
-                                            <span>{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                                @foreach($locales as $locale)
+                                    <td class="px-6 py-4">
+                                        {{-- Textarea --}}
+                                        <div x-show="show === identifier">
+                                            <textarea class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-400 focus:ring-indigo-400 sm:text-sm"
+                                                wire:model.defer="texts.{{ $index }}.{{$locale}}" ></textarea>
+                                            @error($texts[$index][$locale])
+                                                <span>{{ $message }}</span>
+                                            @enderror
+                                        </div>
 
-                                    {{-- Text preview --}}
-                                    <div x-show="show !== identifier">
-                                        {{ Str::words($text->de, 15, '...') }}
-                                    </div>
-                                </td>
+                                        {{-- Text preview --}}
+                                        <div x-show="show !== identifier">
+                                            {{ Str::words($text->de, 15, '...') }}
+                                        </div>
+                                    </td>
+                                @endforeach
 
                                 <td class="px-6 py-4">
                                     {{-- Edit button --}}
