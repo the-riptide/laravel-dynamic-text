@@ -94,7 +94,7 @@
 
                                         {{-- Text preview --}}
                                         <div x-show="show !== identifier">
-                                            {{ Str::words($text->de, 15, '...') }}
+                                            {{ Str::words($text->$locale, 15, '...') }}
                                         </div>
                                     </td>
                                 @endforeach
