@@ -24,7 +24,7 @@ class TextIndex extends Component
     public $locales;
     
     protected $rules = [
-        'texts.*.de' => 'required|string',
+        'texts.*.*' => 'required|string',
     ];
     public function boot()
     {
@@ -44,7 +44,6 @@ class TextIndex extends Component
             ->searchFilter($this->search)
             ->categoryFilter($this->category)
             ->get();
-
 
         return view('dyntext::index', [
             'texts' => $this->texts,
