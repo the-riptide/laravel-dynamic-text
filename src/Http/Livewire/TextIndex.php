@@ -49,9 +49,7 @@ class TextIndex extends Component
             'texts' => $this->texts,
             'categories' => $this->categories,
 
-        ])->extends($this->exists 
-            ? 'dyndash::layout' 
-            : 'dyntext::layout', 
+        ])->extends( 'dashcomp::layout', 
             [
                 'menuItems' => $this->exists  
                     ? (new DashMenu)->items 
