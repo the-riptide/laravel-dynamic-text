@@ -32,7 +32,8 @@ class PrepText {
                 fn ($text) => [
                     $text->category . '.' . $text->key => $text->{$this->locale}
                 ]
-            )
+            ),
+            1200
         );
     }
 }

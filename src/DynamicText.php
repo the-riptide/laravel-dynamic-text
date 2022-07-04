@@ -53,16 +53,11 @@ class DynamicText {
 
         if (config('app.locales')) {
 
-            foreach (config('app.locales') as $locale) {
-    
-                (New PrepText($locale))->updateCache();
-            }        
+            foreach (config('app.locales') as $locale) (New PrepText($locale))->updateCache();
         }
-        else {
-
-            (New PrepText(config('app.locale')))->updateCache();
-        }
-
+        
+        else (New PrepText(config('app.locale')))->updateCache();
+        
         return $text->{App::getLocale()};
     }
 }
