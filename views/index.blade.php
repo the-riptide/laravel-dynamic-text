@@ -104,25 +104,36 @@
                                     <div
                                         x-show="show !== identifier">
                                         {{-- Edit --}}
-                                        <button @click="show = identifier"
-                                            class="rounded bg-indigo-500 px-4 py-1 font-medium text-white">
+                                        <x-dashcomp::buttons.slot small="true" @click="show = identifier">
                                             Edit
-                                        </button>
+                                        </x-dashcomp::buttons.slot>
+            
                                     </div>
 
                                     {{-- Save or cancel --}}
-                                    <div x-show="show === identifier" class="space-x-3">
+                                    <div x-show="show === identifier" class="space-x-3 flex">
                                         {{-- Save --}}
-                                        <button
-                                            class="inline-block rounded bg-green-500 px-4 py-1 font-medium text-white"
+                                        <x-dashcomp::buttons.slot 
+                                            small="true" 
+                                            class="bg-green-500 text-white"
                                             @click="
                                                 $wire.save(identifier);
                                                 show = false;
-                                            ">
+                                            "
+                                        >
                                             Save
-                                        </button>
+                                        </x-dashcomp::buttons.slot>
+    
                                         {{-- Cancel --}}
-                                        <button @click="show = false">Cancel</button>
+                                        <x-dashcomp::buttons.slot 
+                                            small="true"
+                                            danger="true" 
+                                            class="bg-green-500 text-white"
+                                            @click="show = false"
+                                        >
+                                            Cancel
+                                        </x-dashcomp::buttons.slot>
+
                                     </div>
                                 </td>
 
