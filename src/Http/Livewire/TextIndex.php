@@ -23,9 +23,11 @@ class TextIndex extends Component
     public $type = 'Texts';
     public $locales;
     
-    protected $rules = [
-        'texts.*.*' => 'required|string',
-    ];
+    protected function rules()
+    {
+        return collect($this->locales)->mapWithKeys(fn ($locale) => ['texts.*.' . $locale => 'required|string'] );
+    }
+
     public function boot()
     {
 
