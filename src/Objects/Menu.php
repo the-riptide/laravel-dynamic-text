@@ -2,6 +2,8 @@
 
 namespace TheRiptide\LaravelDynamicText\Objects;
 
+use Illuminate\Support\Str;
+
 class Menu
 {
     public $items;
@@ -13,17 +15,18 @@ class Menu
             if (isset($item['route'])) {
                 
                 return [ 
-                    'name' => $key,
+                    'name' => Str::of($key)->snake()->replace('_', ' ')->ucfirst(),
                     'route' => $item['route'],
                     'parameter' => $item['parameter'] ?? null,
-                
+                    'active' => request()->route()->getName() == $item['route'],
                 ];
             }
             else {
                 return [
                     
                     'route' => $item,
-                    'name' => $key,
+                    'name' => Str::of($key)->snake()->replace('_', ' ')->ucfirst(),
+                    'active' => request()->route()->getName() == $item,
                 ];
             }
         });

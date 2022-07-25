@@ -14,26 +14,41 @@ class PrepText {
         $this->locale = $locale;
     }
 
-    public function retrieve() {
+    public function retrieve($cache = true) {
 
-        if (!Cache::has('translations.' . $this->locale)) {
-            
-            $this->updateCache();
+        switch ($cache) {
+
+            case true:
+                
+                return ! Cache::has('translations.' . $this->locale) 
+                    ? $this->updateCache()
+                    : Cache::get('translations.' . $this->locale);
+                            
+            case false:
+
+                return $this->getTexts();
         }
-
-        return Cache::get('translations.' . $this->locale);
     }
 
     public function updateCache() {
 
+        $translations = $this->getTexts();
+
         Cache::put(
             'translations.' . $this->locale, 
-            Text::get()->mapWithKeys(
-                fn ($text) => [
-                    $text->category . '.' . $text->key => $text->{$this->locale}
-                ]
-            ),
+            $translations,
             1200
+        );
+
+        return $translations;
+    }
+
+    private function getTexts()
+    {
+        return Text::get()->mapWithKeys(
+            fn ($text) => [
+                $text->category . '.' . $text->key => $text->{$this->locale}
+            ]
         );
     }
 }

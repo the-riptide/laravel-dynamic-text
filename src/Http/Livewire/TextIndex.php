@@ -10,6 +10,7 @@ use TheRiptide\LaravelDynamicText\Objects\Menu as TextMenu;
 
 use TheRiptide\LaravelDynamicDashboard\Objects\Menu as DashMenu;
 use TheRiptide\LaravelDynamicDashboard\DynamicDashboardServiceProvider;
+use TheRiptide\LaravelDynamicText\PrepText;
 
 class TextIndex extends Component
 {
@@ -30,7 +31,6 @@ class TextIndex extends Component
 
     public function boot()
     {
-
         $this->locales = config('app.locales') ?? [App::getLocale()];
 
         $this->exists = class_exists(DynamicDashboardServiceProvider::class);
@@ -68,12 +68,13 @@ class TextIndex extends Component
     public function save($id) {
     
         $this->texts[$id]->save();
-    
-        // foreach (config('app.locales') as $locale) {
 
-        //     Cache::forget('translations.' . $locale);
-        //     (New PrepText($locale))->updateCache();
-        // }
+        if (config('app.locales')) 
+        {
+            foreach (config('app.locales') as $locale) (new PrepText($locale))->updateCache();
+        }
+        else (new PrepText(config('app.locale')))->updateCache();
+
     }
 }
 
