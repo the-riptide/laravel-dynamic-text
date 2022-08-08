@@ -32,23 +32,18 @@ class TextIndex extends Component
     public function boot()
     {
         $this->locales = config('app.locales') ?? [App::getLocale()];
-
         $this->exists = class_exists(DynamicDashboardServiceProvider::class);
-
-        $this->categories = Text::pluck('category')->unique()->mapWithKeys(fn ($item) => [$item => Str::ucfirst($item)]);
-        
+        $this->categories = Text::pluck('category')->unique()->mapWithKeys(fn ($item) => [$item => Str::ucfirst($item)]);        
     }
 
     public function render()
     {
-
         $this->texts = Text::query()
             ->searchFilter($this->search)
             ->categoryFilter($this->category)
             ->get();
 
         return view('dyntext::index', [
-            'texts' => $this->texts,
             'categories' => $this->categories,
 
         ])->extends( 'dashcomp::layout', 
@@ -60,19 +55,12 @@ class TextIndex extends Component
             ->section('body');
     }
 
-    public function searchAction($id) {
-
-        
-    }
-
     public function save($id) {
     
         $this->texts[$id]->save();
 
-        if (config('app.locales')) 
-        {
-            foreach (config('app.locales') as $locale) (new PrepText($locale))->updateCache();
-        }
+        if (config('app.locales')) foreach (config('app.locales') as $locale) (new PrepText($locale))->updateCache();
+        
         else (new PrepText(config('app.locale')))->updateCache();
 
     }
