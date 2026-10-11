@@ -14,19 +14,20 @@ class PrepText {
         $this->locale = $locale;
     }
 
+    /** Returns a plain array: the translation loader merges lang files with array_replace_recursive() since Laravel 10. */
     public function retrieve($cache = true) {
 
         switch ($cache) {
 
             case true:
                 
-                return ! Cache::has('translations.' . $this->locale) 
+                return (! Cache::has('translations.' . $this->locale) 
                     ? $this->updateCache()
-                    : Cache::get('translations.' . $this->locale);
+                    : Cache::get('translations.' . $this->locale))->all();
                             
             case false:
 
-                return $this->getTexts();
+                return $this->getTexts()->all();
         }
     }
 

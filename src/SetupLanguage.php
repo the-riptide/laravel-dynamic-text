@@ -18,9 +18,9 @@ class SetupLanguage
 
     public function generateLanguage($locale)
     {
-        if (! File::exists(resource_path('lang/'))) File::makeDirectory(resource_path('lang/'));
+        if (! File::exists(lang_path())) File::makeDirectory(lang_path());
 
-        $path = resource_path('lang/' . $locale);
+        $path = lang_path($locale);
      
         if (! File::exists($path . '/lang.php')) 
         {

@@ -1,19 +1,19 @@
 {{-- this is a livewire view. For the livewire to work, the whole view must have a wrapping div. --}}
 <div x-data="{ show: false }"
-    @keyup.enter=" if ({{ $texts->count() }} == 1) $wire.searchAction({{ $texts->first()->id ?? null }})"
     class="relative mb-4 space-y-6 text-gray-900">
 
     @section('title')
         {{ Str::ucfirst('Texts') }}
     @endsection
 
-    @if (! $texts->isEmpty())
+    {{-- Keyed on all texts, not the filtered ones, so a search without matches keeps its search box. --}}
+    @if ($categories->isNotEmpty())
 
         <div class="max-w-lg">
             {{-- Category Select --}}
             <div>
                 <label class="mb-2 block text-sm font-medium text-gray-700"> Category </label>
-                <select wire:model="category"
+                <select wire:model.live="category"
                     class="mt-1 block w-full rounded border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                     <option value=""> Please Choose... </option>
 
@@ -32,7 +32,7 @@
             <label class="mb-2 block text-sm font-medium text-gray-700"> Search </label>
             <input
                 class="h-10 w-full rounded-md border border-gray-300 bg-white px-5 pr-16 text-sm focus:outline-none focus:ring-indigo-600"
-                wire:model="search"
+                wire:model.live="search"
                 type="text"
                 placeholder="search">
 
@@ -86,8 +86,8 @@
                                         {{-- Textarea --}}
                                         <div x-show="show === identifier">
                                             <textarea class="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-indigo-400 focus:ring-indigo-400 sm:text-sm"
-                                                wire:model.defer="texts.{{ $index }}.{{$locale}}" ></textarea>
-                                            @error($texts[$index][$locale])
+                                                wire:model="edits.{{ $text->id }}.{{ $locale }}" ></textarea>
+                                            @error('edits.'.$text->id.'.'.$locale)
                                                 <span>{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -117,7 +117,7 @@
                                             small="true" 
                                             class="bg-green-500 text-white"
                                             @click="
-                                                $wire.save(identifier);
+                                                $wire.save({{ $text->id }});
                                                 show = false;
                                             "
                                         >
