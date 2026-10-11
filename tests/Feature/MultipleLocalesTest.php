@@ -2,6 +2,7 @@
 
 namespace TheRiptide\LaravelDynamicText\Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\Test;
 use TheRiptide\LaravelDynamicText\Http\Livewire\TextIndex;
@@ -11,6 +12,21 @@ use TheRiptide\LaravelDynamicText\Tests\TestCase;
 class MultipleLocalesTest extends TestCase
 {
     protected ?array $locales = ['en', 'nl'];
+
+    // The texts table's locale columns are fixed at migration time; rebuild it for this class and after it.
+    protected function setUp(): void
+    {
+        RefreshDatabaseState::$migrated = false;
+
+        parent::setUp();
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        RefreshDatabaseState::$migrated = false;
+
+        parent::tearDownAfterClass();
+    }
 
     #[Test]
     public function a_new_key_is_created_in_every_locale_and_cached_per_locale(): void
