@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
 
-        $locale = config('app.locales') 
-            ? collect(config('app.locales')) 
+        $locale = config('app.locales')
+            ? collect(config('app.locales'))
             : collect(config('app.locale'));
 
         Schema::create('texts', function (Blueprint $table) use ($locale) {
             $table->id();
             $table->string('category');
-            $table->string('key');        
+            $table->string('key');
             $locale->map(fn ($item) => $table->mediumtext($item));
             $table->timestamps();
         });

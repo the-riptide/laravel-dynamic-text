@@ -1,9 +1,10 @@
-<?php 
+<?php
 
 if (! function_exists('__i')) {
 
-    function __i($key, $value = null) {
+    function __i($key, $value = null)
+    {
 
-        return app('DynamicText')->firstOrCreate($key, $value);    
+        return app('DynamicText')->firstOrCreate($key, $value);
     }
 }

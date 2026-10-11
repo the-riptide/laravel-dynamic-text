@@ -8,28 +8,27 @@ class Menu
 {
     public $items;
 
-    public function __construct() {
+    public function __construct()
+    {
 
-        $this->items = collect(config('dynamictext.menu_items'))->map(function ($item, $key) 
-        {
+        $this->items = collect(config('dynamictext.menu_items'))->map(function ($item, $key) {
             if (isset($item['route'])) {
-                
-                return [ 
+
+                return [
                     'name' => Str::of($key)->snake()->replace('_', ' ')->ucfirst(),
                     'route' => $item['route'],
                     'parameter' => $item['parameter'] ?? null,
                     'active' => request()->route()->getName() == $item['route'],
                 ];
-            }
-            else {
+            } else {
                 return [
-                    
+
                     'route' => $item,
                     'name' => Str::of($key)->snake()->replace('_', ' ')->ucfirst(),
                     'active' => request()->route()->getName() == $item,
                 ];
             }
         });
-    
+
     }
 }
