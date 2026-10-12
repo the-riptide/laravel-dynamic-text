@@ -115,7 +115,7 @@
                                         {{-- Save --}}
                                         <x-dashcomp::buttons.slot 
                                             small="true" 
-                                            class="bg-green-500 text-white"
+                                            class="!bg-green-500 hover:!bg-indigo-800 text-white"
                                             @click="
                                                 $wire.save({{ $text->id }});
                                                 show = false;
@@ -128,7 +128,7 @@
                                         <x-dashcomp::buttons.slot 
                                             small="true"
                                             danger="true" 
-                                            class="bg-green-500 text-white"
+                                            class="text-white"
                                             @click="show = false"
                                         >
                                             Cancel
