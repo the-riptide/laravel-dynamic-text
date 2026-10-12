@@ -40,19 +40,13 @@
         "php": "^8.3",
         "laravel/framework": "^13.0",
         "livewire/livewire": "^3.0",
-        "the-riptide/laravel-dashboard-components": "dev-laravel-13"
+        "the-riptide/laravel-dashboard-components": "^0.2.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
         "orchestra/testbench": "^11.0",
         "phpunit/phpunit": "^12.0"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../laravel-dashboard-components"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
